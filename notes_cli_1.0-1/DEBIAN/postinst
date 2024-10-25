@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+
+RED='\033[0;31m'
+NO_COLOUR='\033[0m'
+
+# Get python major and minor version string
+py_version=python$(python3 --version 2>&1 | awk '{print $2}' | cut -d '.' -f 1,2)
+
+if [ $? -gt 0 ] || [ -z $py_version ];
+then
+    echo -e "${RED}ERROR - failed to locate a valid python3 version. ${NO_COLOUR}"
+fi
+
+# Use '--break-system-packages' to allow pip to install system wide packages
+$py_version -m pip install -r ./requirements.txt --break-system-packages
+$py_version -m pip install ./ --break-system-packages
+
+cp ../cli_notes/notes.py /usr/local/bin

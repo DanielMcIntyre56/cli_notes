@@ -1,0 +1,2 @@
+# Include alembic database configuration info found in alembic.ini
+include cli_notes/migrations/alembic.ini

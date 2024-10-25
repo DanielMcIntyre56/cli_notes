@@ -1,0 +1,15 @@
+# Ignore Python bytecode files
+__pyccache__/
+*.pyc
+
+# Ignore Python package distribution files and directories
+*.egg
+*.egg-info
+build/
+
+# Ignore my personal files
+cli_notes_venv/
+Build-info.md
+
+# Ignore .deb files
+*.deb

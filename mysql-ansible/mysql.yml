@@ -1,0 +1,71 @@
+---
+- name: Install and configure MySQL
+  hosts: localhost
+  become: true
+  gather_facts: true
+
+  # Allow this file access to the variables defined in group_vars/all.yml
+  vars_files:
+    - group_vars/all.yml
+
+  tasks:
+    - name: Set the user who ran the play
+      become: false
+      local_action: command whoami
+      register: invoking_user
+      changed_when: false
+
+    # TODO -> This needs to check the ubuntu version
+    - name: Install MySql
+      ansible.builtin.apt:
+        name: "{{ mysql_version }}"
+        state: present
+        update_cache: yes
+
+    - name: Start mysql service
+      ansible.builtin.shell: "sudo service mysql start"
+      register: my_output
+      changed_when: my_output.rc != 0
+
+    - name: Create mysql user
+      ansible.builtin.command: mysql -u root -e "CREATE USER IF NOT EXISTS '{{ mysql_user }}'@'localhost'"
+      register: my_output
+      changed_when: my_output.rc != 0
+
+    - name: Create databases
+      ansible.builtin.command:
+        cmd: mysql -u root -e "CREATE DATABASE IF NOT EXISTS {{ item }}"
+      loop: "{{ mysql_databases }}"
+      register: my_output
+      changed_when: my_output.rc != 0
+
+    - name: Grant privileges to user
+      ansible.builtin.command:
+        cmd: mysql -u root -e "GRANT {{ item.0 }} ON {{ item.1 }}.* TO '{{ mysql_user }}'@'localhost'"
+      loop: "{{ mysql_privileges | product(mysql_databases) | list }}"
+      loop_control:
+        label: "{{ item.1 }} - {{ item.0 }}"
+      register: my_output
+      changed_when: my_output.rc != 0
+
+    - name: Read the .bashrc file
+      shell: cat "/home/{{ invoking_user.stdout }}/.bashrc"
+      register: bashrc_content
+
+    - name: Add mysql startup logic to .bashrc if not already present
+      when: bashrc_content.stdout.find('# Start mysql on wsl boot') == -1
+      lineinfile:
+        path: "/home/{{ invoking_user.stdout }}/.bashrc"
+        line: |
+          # Start mysql on wsl boot
+          if ! pgrep -x mysql > /dev/null && ! pgrep -x mysqld > /dev/null; then
+              sudo /usr/sbin/service mysql start
+          fi
+        state: present
+
+    - name: Add environment variable to .bashrc
+      lineinfile:
+        path: "/home/{{ invoking_user.stdout }}/.bashrc"
+        regexp: '^export MYSQL_USER='
+        line: 'export MYSQL_USER="{{ mysql_user }}"'
+        state: present
