@@ -1,0 +1,7 @@
+# Define the hosts ansible will use
+# mysql will run on localhost
+all:
+  hosts:
+    localhost:
+      ansible_connection: local
+      ansible_python_interpreter: /usr/bin/python3

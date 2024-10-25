@@ -1,0 +1,16 @@
+# Define mysql variables for ansible to use
+mysql_user: notesuser
+mysql_version: mysql-server=8.0.40-0ubuntu0.22.04.1
+mysql_databases:
+  - notesdb
+
+# Privileges to grant on all databases under mysql_databases
+mysql_privileges:
+  - SELECT
+  - INSERT
+  - UPDATE
+  - DELETE
+  - CREATE
+  - REFERENCES
+  - DROP
+  - ALTER
