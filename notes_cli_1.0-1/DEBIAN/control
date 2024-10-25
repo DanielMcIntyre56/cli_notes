@@ -1,0 +1,9 @@
+Package: clinotes
+Version: 1.0-1
+Section: base
+Priority: optional
+Architecture: amd64
+Depends: python3 (>= 3.10), ansible (>= 2.10.7)
+Maintainer: danielmcintyre56@gmail.com
+Description: A simple CLI notes tool which allows
+ you to take notes via a CLI command.
