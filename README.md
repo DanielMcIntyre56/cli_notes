@@ -19,6 +19,14 @@ Confirm the installation was successful by running `notes -h`.
 - Modify a note - `notes -m "my modified note" -id <note_id as integer>`
 
 
+### Technology
+- `MySQL` is the database used for managing the notes storage and access.
+- `Alembic` is used to handle database configuration and modification.
+- `Python3` is used for the script entry points and database interaction.
+- `SQLAlchemy` is used to interact with the database within the Python package.
+- `Ansible` is used to automatically apply configuration required for the project, for example installing MySQL, running Alembic migrations, granting correct permissions on MySQL databases.
+
+
 ### Debugging
 If you see a failure like the one below when running the ansible playbook, try running `sudo ls` and then retrying the ansible command.
 ```

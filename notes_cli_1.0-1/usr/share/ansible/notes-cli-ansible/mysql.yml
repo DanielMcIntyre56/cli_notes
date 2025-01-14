@@ -47,6 +47,16 @@
       register: my_output
       changed_when: my_output.rc != 0
 
+    - name: Set Python major.minor version
+      set_fact:
+        python_major_minor_version: "python{{ ansible_python_version.split('.')[0:2] | join('.') }}"
+
+    - name: Run Albembic migrations
+      become: false
+      command: chdir=/usr/local/lib/{{ python_major_minor_version }}/dist-packages/cli_notes/migrations alembic upgrade head
+      register: my_output
+      changed_when: my_output.rc != 0
+
     - name: Read the .bashrc file
       shell: cat "/home/{{ invoking_user.stdout }}/.bashrc"
       register: bashrc_content
