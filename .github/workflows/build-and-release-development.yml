@@ -1,0 +1,39 @@
+# This yaml file builds a debian file from the latest commit to the master
+# branch and uploads it to the 'development' tagged release for testing.
+
+name: Build and Release development .deb
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  build-deploy:
+    name: Build & deploy
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout (clone) repository
+      uses: actions/checkout@v3
+
+    - name: Install requirements
+      run: sudo apt-get update && sudo apt-get install -y dpkg
+
+    - name: Build debian package
+      run: |
+        BUILD_DIR=$(ls -d * | grep 'notes_cli')
+        echo "Building with directory: $BUILD_DIR"
+        dpkg --build $BUILD_DIR development.deb
+
+    - name: Upload debian file to 'development' release
+      uses: softprops/action-gh-release@v1
+      with:
+        files: development.deb
+        tag_name: development
+        name: Development Release
+        body: ${{ github.event.head_commit.message }}
+        draft: false
+        prerelease: true
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

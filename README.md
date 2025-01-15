@@ -8,6 +8,10 @@ This is a note taking CLI tool.
 - `cd /usr/share/ansible/notes-cli-ansible`
 - `ansible-playbook -i inventory.yml mysql.yml`
 
+If you want to use the latest development version of this project (unstable - [see releases](#releases)), replace the first two commands with the below commands and then continue the installation steps as normal:
+- `wget https://github.com/DanielMcIntyre56/cli_notes/releases/download/development/development.deb`
+- `sudo dpkg -i development.deb`
+
 Confirm the installation was successful by running `notes -h`.
 
 
@@ -25,6 +29,12 @@ Confirm the installation was successful by running `notes -h`.
 - `Python3` is used for the script entry points and database interaction.
 - `SQLAlchemy` is used to interact with the database within the Python package.
 - `Ansible` is used to automatically apply configuration required for the project, for example installing MySQL, running Alembic migrations, granting correct permissions on MySQL databases.
+- `GitHub Actions` is used to automate building and deploying the latest development version of the project.
+
+
+### Releases
+- The latest stable release of this project will have the `latest` tag. This is the release which should be used generally.
+- There is also a development release which contains a release build with the latest version committed to the master branch. This release is for testing and will not be stable and may contain bugs. It will also contain the very latest changes to the project.
 
 
 ### Debugging
