@@ -15,3 +15,9 @@ DIVIDER = ""
 
 for _ in range(64): HASH_SPACE += " "
 for _ in range(125): DIVIDER += "-"
+
+# File locations
+
+# Use a constant file location and symlink to
+# it in the Rainmeter set up script
+NOTES_TXT_FILE="/etc/config/cli_notes/notes.txt"

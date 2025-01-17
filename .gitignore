@@ -10,6 +10,7 @@ build/
 # Ignore my personal files
 cli_notes_venv/
 Build-info.md
+Rainmeter.md
 
 # Ignore .deb files
 *.deb
