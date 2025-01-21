@@ -3,8 +3,8 @@ This is a note taking CLI tool with an optional Rainmeter integration for viewin
 
 
 ## Installation
-- `wget https://github.com/DanielMcIntyre56/cli_notes/releases/download/v1.0/notes_cli_1.0-1.deb`
-- `sudo dpkg -i notes_cli_1.0-1.deb` 
+- `wget https://github.com/DanielMcIntyre56/cli_notes/releases/download/v2.0/notes_cli_2.0-1.deb`
+- `sudo dpkg -i notes_cli_2.0-1.deb` 
 - `cd /usr/share/ansible/notes-cli-ansible`
 - `ansible-playbook -i inventory.yml mysql.yml`
 
