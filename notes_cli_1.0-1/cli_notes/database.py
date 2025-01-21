@@ -111,3 +111,22 @@ class MySQL:
             return True
 
         return False
+
+
+    def write_notes_to_txt(self) -> None:
+        """
+        Write notes to a .txt file.
+        """
+        with self.mysql_session() as session, session.begin():
+            query = sa.select(_models.NotesList)
+
+        notes = session.execute(query).scalars()
+
+        with open(_config.NOTES_TXT_FILE, 'w+') as f:
+            f.truncate(0)
+            f.write("\n")
+
+            for note in notes:
+                note_dict = note.asdict()
+
+                f.write(f"{note_dict['note_id']} {note_dict['note']}\n")

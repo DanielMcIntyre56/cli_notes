@@ -49,24 +49,29 @@ def main():
 
     if known.list:
         MYSQL.list_notes(show_hash=known.show_hash)
+        MYSQL.write_notes_to_txt()
 
     elif known.clear:
         MYSQL.clear_all_notes()
+        MYSQL.write_notes_to_txt()
 
     elif known.delete:
         if not known.note_id:
             fail("-id is required to delete a note.")
 
         MYSQL.delete_note(known.note_id)
+        MYSQL.write_notes_to_txt()
 
     elif known.add:
         MYSQL.add_note(known.add)
+        MYSQL.write_notes_to_txt()
 
     elif known.modify:
         if not known.note_id:
             fail("-id is required to modify a note.")
 
         MYSQL.modify_note(known.note_id, known.modify)
+        MYSQL.write_notes_to_txt()
 
 
 if __name__ == "__main__":
