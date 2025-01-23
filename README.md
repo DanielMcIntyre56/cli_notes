@@ -33,10 +33,11 @@ Nothing will show on your desktop if you don't have any stored notes so create a
 
 ### Examples
 - List notes - `notes -l`
-- Add a new note - `notes -a "my new note"`
+- Add a new note - `notes -a "<new note string>"`
 - Clear all notes - `notes -c`
 - Delete a note - `notes -d -id <note_id as integer>`
-- Modify a note - `notes -m "my modified note" -id <note_id as integer>`
+- Replace a note - `notes -r "<replacement note string>" -id <note_id as integer>`
+- Append to a note - `notes -ap "<string to append>" -id <note_id as integer>`
 
 
 ### Technology

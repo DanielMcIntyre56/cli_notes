@@ -61,9 +61,9 @@ class MySQL:
                 print(f"{_config.SMALL_SPACE}{note_dict['note_id']}{_config.LARGE_SPACE} {note_dict['note']}")
 
 
-    def modify_note(self, note_id: int, new_note: str):
+    def replace_note(self, note_id: int, new_note: str):
         """
-        Update a note string for a note identified by its note_id.
+        Replace a note string for a note identified by its note_id.
         """
         with self.mysql_session() as session, session.begin():
             if not self._note_exists(note_id, session):
@@ -97,6 +97,25 @@ class MySQL:
             query = sa.delete(_models.NotesList)
             session.execute(query)
             session.execute(sa.text(f"ALTER TABLE {_models.NotesList.__tablename__} AUTO_INCREMENT = 1"))
+            session.commit()
+
+
+    def append_to_note(self, note_id: int, str_to_append: str) -> None:
+        """
+        Append a new string to the end of an existing note.
+        """
+        with self.mysql_session() as session, session.begin():
+            if not self._note_exists(note_id, session):
+                print(f"Note with ID '{note_id}' not found.")
+                return
+
+            query = sa.select(_models.NotesList).where(_models.NotesList.note_id == note_id)
+            note_result = session.execute(query).scalars()
+            note_str = note_result.first().asdict()['note']
+
+            new_note = note_str + str_to_append
+            query = sa.update(_models.NotesList).where(_models.NotesList.note_id == note_id).values(note=new_note)
+            session.execute(query)
             session.commit()
 
 

@@ -8,8 +8,15 @@ EXPECTED_RAINMETER_USER_PATH=./Documents/Rainmeter
 
 
 function help () {
-    echo "TODO: add help information"
-    echo "TODO -> add more error code checks when calling functions"
+    echo "\
+    This is a set up script for the CLI notes Rainmeter integration. \\n
+    Ensure you have Rainmeter installed before running this script (see project README.md for help). \\n
+    This script will assume that your WSL and Windows users share the same name unless you pass in your Windows username.
+
+    Parameters:
+        -h -> display this help info.
+        -u -> pass in your Windows username.
+"
 }
 
 
